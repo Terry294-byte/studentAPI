@@ -3,9 +3,14 @@ const express =require(
 
     const routes = express.Router();
     //get a list of students from the database
-routes.get('/students',(req, res)=>{
-    res.send({type:'Get Requests'});
-});
+    routes.post('/students', (req, res) => {
+        console.log(req.body); // This should show your student data
+        // Here you would save to MongoDB
+        res.send({
+            type: 'Post Request',
+            receivedData: req.body
+        });
+    });
 
 //add a student to the database
 
