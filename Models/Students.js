@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Schema =mongoose.Schema;
+const Schema = mongoose.Schema;
 
 const studentSchema = new Schema({
 firstname: {
@@ -14,12 +14,12 @@ lastname: {
 },
 gender:{
     type: String,
-    enum: ['Male', 'Female', 'Other']
+    
 }
 
 
 
 });
-const student =mongoose('student',studentSchema);
+const student =mongoose.model('student',studentSchema);
 
 module.exports = student;
