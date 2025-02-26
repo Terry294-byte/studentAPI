@@ -11,7 +11,7 @@ routes.post('/addStudent',StudentController.AddStudent);
 
 //update a student in the database
 
-routes.put('/updateStudent/:id',StudentController.updateStudent);
+routes.patch('/updateStudent/:id',StudentController.updateStudent);
 
 //get a student by id
 
@@ -19,8 +19,5 @@ routes.get('/getStudent/:id',StudentController.getStudent);
 
 //delete a student from the database
 
-routes.delete('/students/:id',(req, res)=>{
-    res.send({type:'Delete Request'});
-});
-
-module.exports = routes;
+routes.delete('/deleteStudent/:id',StudentController.deleteStudent);
+module.exports = routes;
