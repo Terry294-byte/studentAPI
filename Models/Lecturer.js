@@ -20,8 +20,8 @@ gender:{
 
 
 });
-const lecture =mongoose.model('lecturer',lecturerSchema)
+const lecture =mongoose.model('lecturer',lecturerSchema);
 
-;
+
 
 module.exports = lecture;
