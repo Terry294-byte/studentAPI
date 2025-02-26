@@ -67,4 +67,25 @@ updateStudent: async(req, res, next)=>{
         next(error);
     
 }
-}}
+},
+
+deleteStudent: async(req,res,next)=>{
+    const id =req.params.id
+    try{
+        const student =await Student.findByIdAndDelete(id)
+        if(!student){
+            throw(createError(404,'student does not exist'))
+        }
+        res.send(student);
+
+    }
+    catch(error){
+        console.log(error.message)
+        if(errror instanceof mongoose.castError){
+            next(createError(400,'ivalid student id'));
+            return;
+        }
+    }
+
+}
+}
