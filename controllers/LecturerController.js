@@ -1,11 +1,11 @@
 const { default: mongoose } = require('mongoose');
-const Lecture = require('../Models/Lectures');
+const Lecturer = require('../Models/Lecturer');
 const createError = require('http-errors');
 
 module.exports = {
-    getAllLectures: async(req, res, next) => {
+    getAllLecturers: async(req, res, next) => {
         try {
-            const result = await Lecture.find({});
+            const result = await Lecturer.find({});
             res.send(result);
         }
         catch (error) {
@@ -14,29 +14,30 @@ module.exports = {
         }
     },
     
-    getLecture: async(req, res, next) => {
+    getLecturer: async(req, res, next) => {
         const id = req.params.id;
         try {
-            const lecture = await Lecture.findById(id);
-            if(!lecture) {
-                throw(createError(404, 'Lecture not found'));
+            const lecturer = await Lecturer.findById(id);
+            if(!lecturer) {
+                throw(createError(404, 'Lecturer not found'));
             }
-            res.send(lecture);
+            res.send(lecturer);
         }
         catch (error) {
             console.log(error.message);
             if (error instanceof mongoose.CastError) {
-                next(createError(400, 'Invalid lecture id'));
+                next(createError(400, 'Invalid lecturer id'));
                 return;
+                
             }
             next(error);
         }
     },
     
-    addLecture: async(req, res, next) => {
+    addLecturer: async(req, res, next) => {
         try {
-            const lecture = new Lecture(req.body);
-            const result = await lecture.save();
+            const lecturer = new Lecturer(req.body);
+            const result = await lecturer.save();
             res.send(result);
         }
         catch (error) {
@@ -45,39 +46,39 @@ module.exports = {
         }
     },
     
-    updateLecture: async(req, res, next) => {
+    updateLecturer: async(req, res, next) => {
         try {
             const id = req.params.id;
             const update = req.body;
             const options = {new: true};
-            const result = await Lecture.findByIdAndUpdate(id, update, options);
+            const result = await Lecturer.findByIdAndUpdate(id, update, options);
             if(!result) {
-                throw(createError(404, 'Lecture not found'));
+                throw(createError(404, 'Lecturer not found'));
             }
             res.send(result);
         }
         catch (error) {
             console.log(error.message);
             if (error instanceof mongoose.CastError) {
-                return next(createError(400, 'Invalid lecture id'));
+                return next(createError(400, 'Invalid lecturer id'));
             }
             next(error);
         }
     },
     
-    deleteLecture: async(req, res, next) => {
+    deleteLecturer: async(req, res, next) => {
         const id = req.params.id;
         try {
-            const lecture = await Lecture.findByIdAndDelete(id);
-            if(!lecture) {
-                throw(createError(404, 'Lecture does not exist'));
+            const lecturer = await Lecturer.findByIdAndDelete(id);
+            if(!lecturer) {
+                throw(createError(404, 'Lecturer does not exist'));
             }
-            res.send(lecture);
+            res.send(lecturer);
         }
         catch (error) {
             console.log(error.message);
             if (error instanceof mongoose.CastError) {
-                next(createError(400, 'Invalid lecture id'));
+                next(createError(400, 'Invalid lecturer id'));
                 return;
             }
             next(error);
