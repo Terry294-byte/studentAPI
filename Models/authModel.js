@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
-    username: {
+    email: {
         type: String,
         required: true,
         unique: true,
@@ -17,22 +17,28 @@ const userSchema = new Schema({
         minlength: 6,
         maxlength: 128
     }
-}, {
-    timestamps: true
-})
+}, { timestamps: true });
 
-userSchema.pre('save', async function(next){
+// Hash password before saving
+userSchema.pre('save', async function (next) {
     try {
-        const salt = await bcrypt.genSalt(10)
-        const hashedPwd = await bcrypt.hash(this.password, salt)
-        this.password = hashedPwd
-        next()
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
+        next();
     } catch (error) {
-        next(error) 
-    }     
-})
+        next(error);
+    }
+});
+
+// ✅ Fix: Correct the function name and syntax
+userSchema.methods.isValidPassword = async function (password) {
+    try {
+        return await bcrypt.compare(password, this.password);  // ✅ Fix: Corrected syntax
+    } catch (error) {
+        throw error;
+    }
+};
 
 // Create the User model
 const User = mongoose.model('User', userSchema);
-
-module.exports = User;
+module.exports = User;
